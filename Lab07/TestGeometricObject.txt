@@ -1,0 +1,47 @@
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.*;
+
+public class TestGeometricObject {
+    static int search(ArrayList<GeometricObject> list2, GeometricObject element){
+        for (int i=0; i< list2.size();i++){
+            if(list2.get(i).equals(element)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    
+    
+  /** Main method */
+  public static void main(String[] args) {
+    GeometricObject[] GO = new GeometricObject[4];
+    ArrayList<GeometricObject> GOAL = new ArrayList<GeometricObject>();
+    GO[0] = new Circle(5);
+    GO[1] = new Circle(6);
+    GO[2] = new Rectangle(2,3);
+    GO[3] = new Rectangle(3,4);
+    GOAL.add(new Circle(5));
+    GOAL.add(new Circle(15));
+    GOAL.add(new Rectangle(10,20));
+    GOAL.add(new Rectangle(20,30));
+    System.out.println("Array 1 Unsorted");
+    for(int i=0; i<GO.length; i++){
+        System.out.print(GO[i].getPerimeter() + " ");
+    }
+    
+    Arrays.sort(GO);
+    System.out.println("");
+    System.out.println("Array 1 Sorted:");
+    for(int i=0; i<GO.length; i++){
+        System.out.print(GO[i].getPerimeter() + " ");
+    }
+    System.out.println("");
+    System.out.println("Is There A Circle of Radius 5 in List 2? 0 if True: ");
+    System.out.println(search(GOAL, (GeometricObject) new Circle(5)      ));
+    
+  }
+
+}

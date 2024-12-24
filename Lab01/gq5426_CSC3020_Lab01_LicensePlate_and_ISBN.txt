@@ -1,0 +1,77 @@
+/******************************************************************************
+
+Part 01:
+Assume that a vehicle plate number consists of three uppercase letters followed by four digits. 
+Write a program to generate a plate number.
+Here are sample runs:
+A random vehicle plate number: BWV4077
+A random vehicle plate number: ZKR2001
+
+Part 02:
+An ISBN-10 (International Standard Book Number) consists of 10 digits: 
+d1d2d3d4d5d6d7d8d9d10. The last digit, d10 is calculated from the other 
+9 digits using the following formula:
+(d1 * 1 + d2 * 2 + d3 * 3 + d4 * 4 + d5 * 5 + d6 * 6 + d7 * 7 + d8 * 8 + d9 * 9) %11
+If the result is 10, the last digit is denoted as X according to the ISBN-10 convention. 
+Write a program that prompts the user to enter the
+first 9 digits and displays the 10-digit ISBN (including leading zeros). 
+Your program should read the input as an integer. Do not use Strings or arrays.
+
+Here are sample runs:
+Enter the first 9 digits of an ISBN as integer: 013601267
+The ISBN-10 number is 0136012671
+
+Enter the first 9 digits of an ISBN as integer: 013031997
+The ISBN-10 number is 013031997X
+
+*******************************************************************************/
+import java.util.Scanner;
+public class Main
+
+{
+    public static void plater(){
+        String letters = "";
+        for(int i=0; i<3; i++){
+            //Yeah it isn't unicode, but this allows addition or removal of characters with ease. 
+            String alph = "ABCEFGHIJKLMNOPQRSTUVWXYZ";
+            int letter = (int)(Math.random()*(alph.length()));
+            letters = letters + alph.charAt(letter);
+        }
+        int numbers = (int)(Math.random()*10000);
+        System.out.println(letters + numbers);
+    }
+    
+    public static void isbn(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the first 9 digits of an ISBN as an integer: ");
+        //int isbnint = input.nextInt();
+        //No need to format leading zeroes if you use the string as the input.
+        String isbnstring = input.nextLine();
+        
+
+        //look, I hate using modulus, this solution is more janky but more reliable in my mind.
+        int sum = 0;
+        for(int i=0; i<9; i++){
+            //get the character from the string, convert that to a one line string, convert that to an int,
+            //apply the formula
+            sum += (i+1)*Integer.parseInt(Character.toString(isbnstring.charAt(i)));
+            
+            //debugger: (I should have picked an easier solution)
+            //System.out.println((i+1)*Integer.parseInt(Character.toString(isbnstring.charAt(i))));
+        }
+        String lastdigit;
+        if (sum%11 == 10){
+            lastdigit = "X";
+        }else{
+            lastdigit = String.valueOf(sum%11);
+        }
+        //see, converting everything into strings pays off in the end.
+        System.out.println("The ISBN-10 Number is: " + isbnstring + lastdigit);
+        
+        
+    }
+	public static void main(String[] args) {
+		plater();
+		isbn();
+	}
+}

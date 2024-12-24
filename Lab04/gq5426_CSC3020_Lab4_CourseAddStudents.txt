@@ -1,0 +1,107 @@
+/*
+The Course class uses an array to store the students in the course. For simplicity, assume the maximum course enrollment is 3. The array is created using new String[3]. The addStudent method adds a student to the array. Whenever a new student is added to the course, numberOfStudents is increased. The getStudents method returns the array. The dropStudent method is not implemented.
+
+Revise the Course class as follows:
+•	Revise the getStudents() method to return an array whose length is the same as the number of students in the course. (Hint: create a new array and copy students to it.)
+•	The array size is fixed. Revise the addStudent method to automatically increase the array size if there is no room to add more students. This is done by creating a new larger array and copy the contents of the current array to it.
+•	Implement dropStudent method.
+
+Test the program by creating a Course object, add five students, and remove one student. Display the number of students and students’ names before and after removing a student.
+Submit only one file. Save your program as a text file (.txt)
+
+
+Sample output after adding 5 students to a list of size 3; then, removing one student from the list.
+
+*/
+
+import java.util.Arrays;
+
+public class TestCourse {
+  public static void main(String[] args) {
+    Course example = new Course("Potato 101");
+    example.addStudent("Max");
+    example.addStudent("Jim");
+    example.addStudent("Aaron");
+    example.addStudent("Frank");
+    example.addStudent("Steve");
+    System.out.println("The number of students in the course is: "+ example.getNumberOfStudents() );
+    example.getStudents();
+    example.dropStudent("Max");
+    System.out.print("\n");
+    System.out.println("The number of students in the course is: "+ example.getNumberOfStudents() );
+    example.getStudents();
+
+    
+  }
+}
+
+class Course {
+  private String courseName;
+  private String[] students = new String[3];
+  private int numberOfStudents;
+    
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+  
+  public String getCourseName() {
+    return courseName;
+  }
+
+  public int getNumberOfStudents() {
+    return numberOfStudents;
+  }  
+
+  //Revise the getStudents method to return an array whose length is the same 
+  //as the number of students in the course. 
+  public String[] getStudents() {
+    //this returns an array that has the same length as the number of students in the course
+    String[] numberOfStudents = new String[this.numberOfStudents];
+    System.arraycopy(this.students,0,numberOfStudents,0,this.numberOfStudents);
+    //printing arrays is a pain, I added that in for convenience
+    System.out.print("\n");
+    for(int i=0; i<this.numberOfStudents;i++ ){
+        System.out.print(numberOfStudents[i] +", ");
+    }
+    //this returns the array that is printed, it is much easier to print it 
+    //within the getStudent function for debugging.
+    return numberOfStudents;
+  }
+ 
+
+  //Revise the addStudent method to automatically increase the array size 
+  public void addStudent(String student) {
+     //create a new array that is larger than the original by 1
+    String[] temp = new String[this.numberOfStudents+1];
+    //copy the old array into the new array
+    System.arraycopy(this.students,0,temp,0,this.numberOfStudents);
+    //assign the latest student to the newest position
+    temp[this.numberOfStudents] = student;
+    this.numberOfStudents++;
+    //reassign the old array to the new array
+    this.students = temp;
+  }
+  
+  //Implement the dropStudent method.	
+  public void dropStudent(String student) {
+    int index = -1;
+    for(int i=0; i<numberOfStudents;i++){
+        if(this.students[i] == student){
+            index = i;
+        }
+    }
+
+    if(index==-1){
+        return;
+    }
+    
+    //create a new array that is lsmaller than the original by 1
+    String[] temp = new String[this.numberOfStudents-1];
+    //copy the old array into the new array, using the index as the gap.
+    System.arraycopy(this.students,0,temp,0,index);
+    System.arraycopy(this.students,index+1,temp,index,this.numberOfStudents-index-1);
+    this.numberOfStudents--;
+    this.students = temp;
+    
+  }
+}
