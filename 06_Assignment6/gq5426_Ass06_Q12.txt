@@ -1,0 +1,112 @@
+/******************************************************************************
+
+Question 12 (4 points)
+Create a base class called Vehicle that has private data fields: the manufacturer’s name (type String) and number of cylinders in the engine (type int). Then create a class called Truck that is derived from Vehicle and has additional property: the load capacity in tons (type Double).
+Give your classes no argument and argument constructors (do not create mutators or accessors methods). Override equals and toString methods in each class. Write a driver program that create two objects of class Truck, invoke method toString in each object, and compare both objects. 
+
+Vehicle: manufacturer= Ford, cylinders=5, load= 1.5
+Vehicle: manufacturer= Honda, cylinders=6, load= 1.75
+
+truck1 and truck2 are not the same
+
+Vehicle: manufacturer= Ford, cylinders=5, load= 1.5
+Vehicle: manufacturer= Ford, cylinders=5, load= 1.5
+
+truck3 and truck4 are the same
+
+
+*******************************************************************************/
+class Vehicle{
+    private String mName;
+    private int cylinders;
+    
+    //no argument constructor
+    Vehicle(){
+        this.mName = "NO MANUFACTURER NAME SPECIFIED";
+        this.cylinders = 0;
+    }
+    //argument constructor
+    Vehicle(String name, int cyl){
+        this.mName = name;
+        this.cylinders = cyl;
+    }
+    String getName(){
+        return this.mName;
+    }
+    
+    int getCylinders(){
+        return this.cylinders;
+    }
+    @Override
+    public String toString(){
+        String returnThis = 
+        "Vehicle: manufacturer=" + this.mName 
+        +", cylinders=" + this.cylinders;
+        return  returnThis;
+    }
+    
+    boolean equals(Vehicle compareV){
+        if((this.mName == compareV.getName()) 
+        && (this.cylinders == compareV.getCylinders())){
+            System.out.println("Compared vehicles ARE the same");
+            return true;
+        }else{
+            System.out.println("Compared vehicles ARE NOT the same");
+            return false;
+        }
+        
+    }
+    
+}
+
+class Truck extends Vehicle{
+    double loadCapacity;
+        //no argument constructor
+    Truck(){
+        super();
+        this.loadCapacity= 0.0;
+
+    }
+    //argument constructor
+    Truck(String name, int cyl, double load){
+        super(name,cyl);
+        this.loadCapacity = load;
+    }
+    @Override
+    public String toString(){
+        String returnThis = 
+            "Vehicle: manufacturer=" + super.getName() 
+            +", cylinders=" + super.getCylinders()
+            +", load=" + this.loadCapacity;
+        return  returnThis;
+    }
+    
+    boolean equals(Truck compareV){
+        if((super.getName() == compareV.getName()) 
+        && (super.getCylinders() == compareV.getCylinders())
+        && (this.loadCapacity == compareV.loadCapacity)){
+            System.out.println("Compared trucks ARE the same");
+            return true;
+        }else{
+            System.out.println("Compared trucks ARE NOT the same");
+            return false;
+        }
+        
+    }
+    
+}
+
+//the more confused I am, the more comments I add!
+public class Main
+{
+	public static void main(String[] args) {
+	    Truck truck1 = new Truck("Ford", 5, 1.5);
+	    Truck truck2 = new Truck("Honda", 6, 1.75);
+	    
+	    System.out.println(truck1.toString());
+	    System.out.println(truck2.toString());
+	    truck1.equals(truck2);
+	    
+
+	}
+}

@@ -1,0 +1,84 @@
+/******************************************************************************
+
+Write a program that uses a two-dimensional array to store the highest and lowest temperatures for each month of the year. The program should output the average high, average low, and highest and lowest temperatures of the year. Your program must consist of the following methods:
+a.	Method getData: This method reads and stores the data in the two-dimensional array.
+b.	Method averageHigh: This method calculates and returns the average high temperature of the year.
+c.	Method averageLow: This method calculates and returns the average low temperature of the year.
+d.	Method indexHighTemp: This method returns the index of the highest temperature in the array.
+e.	Method indexLowTemp: This method returns the index of the lowest temperature in the array.
+(These methods must all have the appropriate parameters.)
+Name your class: Temperatures 
+A sample output is:
+
+*******************************************************************************/
+import java.util.Scanner;
+public class Main
+{
+    public static void getData(int[][] arr){
+
+        System.out.println("Enter the high temperature for each month");
+        Scanner input = new Scanner(System.in);
+        for(int i=0; i<12; i++){
+            int high = input.nextInt();
+            arr[i][0] = high;
+        }
+        
+        System.out.println("Enter the low temperature for each month");
+        for(int i=0; i<12; i++){
+            int low = input.nextInt();
+            arr[i][1] = low;
+        }
+        
+    }
+    
+    public static int averageLow(int[][] arr){
+        int sum =0;
+        for(int i=0; i<12; i++){
+            sum += arr[i][1];
+        }
+        return sum/12;
+    }
+    
+    public static int averageHigh(int[][] arr){
+        int sum =0;
+        for(int i=0; i<12; i++){
+            sum += arr[i][0];
+        }
+        return sum/12;
+    }
+    
+    public static int indexHighTemp(int[][] arr){
+        int max = arr[0][0];
+        int j =0;
+        for(int i=0; i<12; i++){
+            if(arr[i][0] > max){
+                max = arr[i][0];
+                j = i;
+            }
+        }
+        return j;
+    }
+    
+        public static int indexLowTemp(int[][] arr){
+        int min= arr[0][1];
+        int j =0;
+        for(int i=0; i<12; i++){
+            if(arr[i][1] < min){
+                min = arr[i][1];
+                j = i;
+            }
+        }
+        return j;
+    }
+    
+    
+    
+	public static void main(String[] args) {
+		int[][] temparr = new int[12][2];
+		getData(temparr);
+		System.out.println("Average high temperature: " + averageHigh(temparr));
+		System.out.println("Average low temperature: " + averageLow(temparr));
+		System.out.println("Highest temperature: " + temparr[indexHighTemp(temparr)][0]);
+		System.out.println("Lowest temperature: " + temparr[indexLowTemp(temparr)][1]);
+	}
+}

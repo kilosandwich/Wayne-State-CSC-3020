@@ -1,0 +1,72 @@
+“:
+a.	For non-programming questions, use a word file to type your answers. Don’t use the text box on the Canvas to answer the questions or to write comments, we will not read it. 
+“ – Instructions For Assignment
+
+Answer question 1 on a text file (include question number and the answer only); write a program for each of Q.2 - Q.5. Convert .java files to text files. Submit 5 text files to Canvas by the due date.
+
+1.	(12 points) Give a brief answer for each of the following questions:
+
+a)	What is the difference between an interpreted language and a compiled language?
+In a compiled language the code is first translated into an intermediate language which is then compiled into machine code. Interpreted code by comparison translates the code directly into machine code. 
+
+b)	What does JDK stand for? What does JRE stand for?
+JDK stands for ‘Java Development Kit’, JRE stands for ‘Java Runtime Environment’.
+
+c)	What is the Java source filename extension, and what is the Java bytecode filename extension?
+The java source filename extension is “.java”. The bytecode filename extension is “.class”.
+
+d)	What is the command to compile a Java program?
+The command to compile a java program is ‘javac’.
+
+
+e)	What is the command to run a Java program? 
+“java”
+
+
+f)	What is the JVM? 
+JVM is the “Java Virtual Machine”. The JVM executes the compiled java code. Because the compiled java code runs on the JVM, and the JVM is multi-platform, this means java is multi-platform. 
+
+
+g)	If your program needs to read integers, but the user entered strings, an error would occur when running this program. What kind of error is this? 
+A type error (as opposed to a syntax error). 
+
+h)	Show the output of the following code:
+		double amount = 5;
+		System.out.println(amount / 2);
+		System.out.println(5 / 2);
+
+
+		The output is as follows:
+		2.5
+		2
+		 
+i)	Can the following conversions involving casting be allowed? 
+
+		boolean b = true;
+		i = (int)b;
+
+		int i = 1;
+		boolean b = (boolean)i;
+		
+No. The above conversions do not work. There are however specific methods that can achieve the desired result.
+ 
+j)	What data types are required for a switch variable? If the keyword break is not used after a case is processed, what is the next statement to be executed? 
+
+If there are no break keywords, then Java will continue onto the next case until it encounters a break statement or the switch block ends. The switch statement accepts the byte, short, char, int, and String data types. 
+
+k)	What is y after the following switch statement is executed? Rewrite the code using an if-else statement.
+		x = 3; y = 3;
+		switch (x + 3) {  
+  			case 6:  y = 1;
+  			default: y += 1;
+		}
+	Y is 2 after the above switch statement is executed because there is no break. I am assuming that the lack of break was a mistake, and that it was not intended to increase the value of y. 
+ 		int x = 3, y = 3;
+		if ((x+3) == 6){
+		    y = 1;
+		}else{
+		    y +=1;
+		}
+
+l)	Why does the Math class not need to be imported?
+The math library is included standard with the java library. 

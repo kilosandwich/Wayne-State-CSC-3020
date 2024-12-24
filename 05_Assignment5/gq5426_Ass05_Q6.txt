@@ -1,0 +1,40 @@
+/******************************************************************************
+
+Find the first 25 numbers greater than Long.MAX_VALUE that are divisible by 3 and 5.
+Print 5 numbers in each line.
+
+
+*******************************************************************************/
+import java.math.BigInteger; //I get that this class is helpful, but 
+//it seems weird that Java doesn't automatically convert overflows into bigIntegers.
+//I keep forgetting this goes before class declarations.
+//I kept accidentally typing BIgInteger instead of BigInteger. Are there any languages that are not case sensitive?
+
+public class Main{
+
+	public static void main(String[] args) {
+	    //hindsight, I should've made a function for this. but whatever.
+	    //The below program works through using BigInteger to handle values above Long.MAX_VALUE
+	    //it counts values above this one by one, then checks them to see if they are divisible by 
+	    //3 or 5 using the modulus functions built into BIgInteger
+	    //It then prints them out, for some reason it was required to have five per line.
+	    //the internal count function is modulused by 5 to determine when every five new things is.
+	    //so uhhhh don't mess with that value if extending this program. 
+		BigInteger maximum = new BigInteger(Long.toString(Long.MAX_VALUE)); //find the maximum MAX_VALUE
+		int counter = 0; //we're only doing this 25 times
+		
+		//find the first 25, 
+		while(counter < 25){
+		    maximum = maximum.add(BigInteger.ONE);//add one each time
+		    //perform modulus using the BigInteger operations
+		    if(maximum.mod(BigInteger.valueOf(3)).equals(BigInteger.ZERO) &&
+		       maximum.mod(BigInteger.valueOf(5)).equals(BigInteger.ZERO)){
+		           	if((counter % 5) == 0){
+            		  System.out.print("\n"); //every five lines start a new line.
+            		  }
+		          System.out.print(maximum + " "); //print out the number. SHOW THE WORLD.
+		          counter++; //forgot to add this the first time. whoops. 
+		       }
+		}
+	}
+}

@@ -1,0 +1,67 @@
+/******************************************************************************
+Write a program that allows the user to enter the last names of five candidates in a local election and the votes received by each candidate.
+The program should then output each candidate’s name, the votes received by that candidate, and the percentage of the total votes received by the candidate. Your program should also output the winner of the election. 
+In addition to main method, your program must have at least two methods; a method that returns the winner and a method that returns the sum of votes. Format the output using the format method. Name your class: Candidates. 
+A sample output is:
+
+
+*******************************************************************************/
+
+import java.util.Scanner;
+public class Main
+{
+    public static int voteSum(int[] vlist){
+        int votesum = 0;
+        for(int i=0; i<vlist.length; i++){
+            votesum += vlist[i];
+        }
+        return votesum;
+    }
+    
+    public static String winner(String[] clist, int[] vlist){
+        int max=0;
+        int j =0;
+        for(int i=0; i<vlist.length; i++){
+            if(vlist[i] > max){
+                max = vlist[i];
+                j=i;
+            }
+        }
+        
+        return clist[j];
+        
+    }
+
+    
+	public static void main(String[] args) {
+
+	    String[] namelist = new String[5];
+	    int[] votelist = new int[5];
+	    
+	    for (int i=0; i<5; i++){
+	        Scanner input = new Scanner(System.in);
+	        System.out.println("Please enter the candidate's name: ");
+	        String name = input.nextLine();
+	        namelist[i] = name;
+	        
+	        System.out.println("Please enter the votes " + name + " recieved: ");
+	        int votes = input.nextInt();
+	        votelist[i] = votes;
+	    }
+	    int votetotal = voteSum(votelist);
+	    
+	    //output the winner and stuff;
+	    System.out.println("Candidate       Votes Recieved:      %of Total Votes");
+	    for(int i=0; i<5; i++){
+	        System.out.print( "\n");
+	        System.out.print(namelist[i] + "   " + votelist[i] +   "     " + votelist[i]/votetotal);
+	    }
+	    System.out.println("");
+	    System.out.println("Total:     " + votetotal);
+	    System.out.println("The winner of the election is "+ winner(namelist, votelist));
+	    
+
+	    
+
+	}
+}

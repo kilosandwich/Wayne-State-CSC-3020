@@ -1,0 +1,88 @@
+Question 01 (9 points)
+True or false? 
+a.	An abstract class can be used just like a nonabstract class except that you cannot use the new operator to create an instance from the abstract class. 
+True
+b.	An abstract class can be extended. 
+TRUE
+c.	A subclass of a nonabstract superclass cannot be abstract. 
+FALSE
+d.	An abstract method must be nonstatic.
+TRUE
+e.	An interface is compiled into a separate bytecode file. 
+TRUE
+f.	An interface can have static methods. 
+TRUE
+g.	An interface can extend one or more interfaces. 
+TRUE
+h.	An interface can extend an abstract class. 
+FALSE
+i.	An interface can have default methods.
+TRUE
+
+Question 02 (4 points)
+Answer the following questions?
+a.	Suppose A is an interface. Can you create an instance using new A()?
+No. You cannot create instance of interfaces as objects, they are created by using the classes that implement them. 
+b.	Suppose A is an interface. Can you declare a reference variable x with type A like this?
+	A x;
+//Yes. 
+c.	Show the error in the following code:
+interface A {
+  void m1();
+}
+
+class B implements A {
+  void m1() {
+    System.out.println("m1");
+  }
+}
+//Class B needs the public access modifier to make the interface be implemented. 
+
+d.	You can define the compareTo method in a class without implementing the Comparable interface. What are the benefits of implementing the Comparable interface?
+The point of an interface is to in part make sure that all code is standardized, using the comparable interface achieves this standardization which forces compatibility. 
+
+Question 03 (4 points)
+Which of the following is a correct interface?
+(a)
+interface A {    
+  void print() { }
+} 
+
+(b)        
+interface A {   
+  void print();
+}
+//B is a correct interface. The other ones include brackets for their methods, which is a no no. 
+(c)
+interface A {    
+  default void print() {
+  }
+} 
+
+(d)
+interface A {    
+  static int get() {
+    return 0;
+  }
+} 
+
+
+Question 04 (4 points)
+The following questions are based on the Edible interface and the classes defined in Ch. 13. For each question, answer if the code can compile, can run. If not, give a reason. If it runs, give the output.
+
+a. Edible x = new Tiger(); 
+//Does not compile. Error: Tiger Cannot be converted to Edible because it is not a compatible types. (
+
+b. Edible x = new Chicken(); 
+   System.out.println(x.sound()); 
+//Does not compile as it cannot find the symbol for x
+	
+c. Edible x = new Chicken();
+   System.out.println((Animal)x.sound());	
+//Does not compile as it cannot find the symbol for x.
+
+d. Edible x = new Chicken();
+   System.out.println(((Animal)x).sound());
+//COMPILES:
+//Chicken: Cock-a-doodle-doo
+	

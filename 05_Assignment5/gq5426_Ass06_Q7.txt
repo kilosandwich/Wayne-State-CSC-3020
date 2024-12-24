@@ -1,0 +1,86 @@
+/******************************************************************************
+
+The StringBuilder class is provided in the Java library. Provide your own implementation (name the new class MyStringBuilder2) with three data fields, array of characters, size, capacity, and the following methods:
+
+•	public MyStringBuilder2(String s); constructor (1 points) abcxyz
+•	public MyStringBuilder2 append(MyStringBuilder2 s); a method that takes s object and add s array of characters to this array of characters, then returns this. If appending s array of characters exceeds this array capacity, increase the capacity of this array. (3 points)
+•	public MyStringBuilder2 substring(int begin, int end); (2 points) Welcome to Java
+•	Accessors methods that return the size, the capacity, and the array of characters as a string. (1 points)
+Do not use any method from StringBuilder, StringBuffer, or String classes (you can use length or charAt from class String).
+
+
+*******************************************************************************/
+
+//onlineGDB only accepts that classes be named 
+public class Main
+{
+	public static void main(String[] args) {
+	    MyStringBuilder2 proof = new MyStringBuilder2("abcxyz");
+	    MyStringBuilder2 appender = new MyStringBuilder2("Welcome To Java");
+	    proof.append(appender);
+	    proof.substring(0,18);
+		System.out.println(proof.toString());
+		System.out.println("The size of proof is: "+ proof.getSize());
+		System.out.println("The capacity of proof is: "+ proof.getCapacity());
+	}
+}
+
+class MyStringBuilder2{
+    char[] chararray;
+    int size;
+    int capacity;
+    
+    //constructor object that takes a string and converts it into a stored character array.
+    MyStringBuilder2(String S){
+        //increase the size of the local char array to whatever string we are jamming in there.
+        this.chararray = new char[S.length()];
+        for(int i=0; i<S.length(); i++){
+            this.chararray[i] = S.charAt(i); //insert the character.
+        }
+        this.size = S.length();
+        this.capacity = S.length();
+    }
+    
+    public MyStringBuilder2 append(MyStringBuilder2 s){
+        //Expand the array if the size of both exceeds the current arrays capacity.
+        if((this.size + s.size) > this.capacity){
+            int newCapacity = this.size + s.size;
+            char[] tempCharArray = new char[newCapacity];
+            System.arraycopy(this.chararray,0,tempCharArray,0,this.size);
+            this.chararray = tempCharArray;
+
+        }
+        //copy the array into the object's array only after the size.
+        System.arraycopy(s.chararray,0,this.chararray,this.size,s.size);
+        
+        this.capacity = this.size+s.size;
+        this.size = this.size + s.size;
+
+        return this;
+
+    }
+    public MyStringBuilder2 substring(int begin, int end){
+        char[] tempCharArray = new char[end-begin];
+        System.arraycopy(this.chararray,begin,tempCharArray,0,end-begin);
+        this.size = end-begin;
+        this.capacity = end-begin;
+        return this;
+    }
+    
+    public String toString(){
+        String returnString = "";
+        for(int i=0; i< this.size;i++){
+            returnString += this.chararray[i];
+        }
+        return returnString;
+    }
+    
+    public int getSize(){
+        return this.size;
+    }
+    
+    public int getCapacity(){
+        return this.capacity;
+    }
+    
+}

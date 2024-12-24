@@ -1,0 +1,57 @@
+/******************************************************************************
+Question 11 (3 points)
+Write a method that returns the union of two array lists of integers using the following header:
+public static ArrayList<Integer> union(ArrayList<Integer> list1, ArrayList<Integer> list2)
+For example, the addition of two array lists {2, 3, 1, 5} and {3, 4, 6} is {2, 3, 1, 5, 3, 4, 6}. Write a test program that prompts the user to enter two lists, each with five integers, and displays their union. The numbers are separated by exactly one space. Here is a sample run:
+
+Enter five integers for list1: 3 5 45 4 3
+Enter five integers for list2: 33 51 5 4 13
+The combined list is 3 5 45 4 3 33 51 5 4 13
+
+
+*******************************************************************************/
+//Yeah I have no experience using this thing, first time is the charm.
+import java.util.ArrayList;
+
+
+import java.util.Scanner;
+
+public class Main {
+    //THe union function returns an ArrayList of integers, it takes two Arraylists as inputs
+    //then combines them by making a new Arraylist, initializing it from the components of the first
+    //array list, then jamming all of Arraylist 2 into it. 
+    public static ArrayList<Integer> union(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+        ArrayList<Integer> result = new ArrayList<>(list1);
+        result.addAll(list2);
+        //just realized this doesn't sort the lists, that's kind of annoying. 
+        return result;
+    }
+
+    public static void main(String[] args) {
+        //Define variables
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Integer> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
+
+
+        // Input for list1 (I think I should have used a method for this.)
+        System.out.print("Enter five integers for list1: ");
+        for (int i = 0; i < 5; i++) {
+            list1.add(scanner.nextInt());
+        }
+
+        // Input for list2
+        System.out.print("Enter five integers for list2: ");
+        for (int i = 0; i < 5; i++) {
+            list2.add(scanner.nextInt());
+        }
+
+        // Combine the lists
+        ArrayList<Integer> result = union(list1, list2);
+        System.out.print("The combined list is ");
+        //printing function
+        for (Integer num : result) {
+            System.out.print(num + " ");
+        }
+    }
+}

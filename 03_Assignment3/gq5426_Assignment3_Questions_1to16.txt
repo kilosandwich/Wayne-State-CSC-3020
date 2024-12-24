@@ -1,0 +1,313 @@
+Q 01. (3 points)
+a is valid
+b is valid
+c is valid
+d is valid
+e is invalid, it lacks a sufficient number of arguments.
+f is valid
+
+
+
+Q 02. (2 points)
+Identify and correct the errors in the following program (4 errors):
+     public class Test {
+//added a return type, added and argument type
+        public static int method1(int n,int  m) {
+            n += m;
+            method2(3.4);
+        }
+//changed the argument type to double so method1 worked
+     public static int method2(double n) {
+         if (n > 0) return 1;
+//added braces
+         else if (n == 0){
+            return 0;
+         }else if (n < 0){
+              return -1;
+         }
+         }
+
+
+Q 03. (2.5 points)
+Identify and fix the errors in the following code (5 errors):
+public class Test {
+    public static void main(String[] args) {
+        //redefined r properly, don't forget that new keyword!
+         double[] r = new double[100];
+        
+        //added braces, removed semicolon
+         for (int i = 0; i < r.length(); i++){
+             r(i) = Math.random * 100;
+         }
+}
+
+
+Q 04. (0.5 points)
+Once an array is created, its size cannot be changed. Does the following code resize the array?
+int[] myList;
+myList = new int[10];
+// Sometime later you want to assign a new array to myList
+myL
+
+No, the following code does not resize the array, it redefines the value of the array entirely
+by creating a new array with the same name. 
+
+
+Q 05. (0.5 points)
+True or false? When an array is passed to a method, a new array is created and passed to the
+method.
+False.
+
+
+Q 06. (1 points)
+Show the output of the following two programs:
+(a)
+public class Test {
+public static void main(String[] args) {
+int number = 0;
+int[] numbers = new int[1];
+m(number, numbers);
+System.out.println("number is " + number
++ " and numbers[0] is " + numbers[0]);
+}
+public static void m(int x, int[] y) {
+x = 3;
+y[0] = 3;
+}
+}
+
+//the output is
+//the number is 0 and numbers[0] is 3
+
+
+
+
+
+(b)
+public class Test {
+public static void main(String[] args) {
+int[] list = {1, 2, 3, 4, 5};
+reverse(list);
+for (int i = 0; i < list.length; i++)
+System.out.print(list[i] + " ");
+}
+public static void reverse(int[] list) {
+int[] newList = new int[list.length];
+for (int i = 0; i < list.length; i++)
+newList[i] = list[list.length - 1 - i];
+list = newList;
+}
+}
+
+//the output is
+//1 2 3 4 5
+
+
+
+Q 07. (1.5 points)
+What is wrong with each of the following method headers?
+public static void print(String... strings, double... numbers)
+//cannot have multiple ... as a parameters
+
+public static void print(double... numbers, String name)
+//... must be the last parameter
+
+public static double... print(double d1, double d2)
+///... cannot be a return type. 
+
+You cannot have multiple of the ... as a parameter for a single method. Similarly a ... cannot be 
+used as a return type. 
+
+Q 08. (0.5 points)
+What types of array can be sorted using the java.util.Arrays.sort method? Does this sort method
+create a new array?
+The original array is sorted, a new array is not created. The following types of methods are listed
+as being able to be sorted by the .sort method under the java documentation.
+byte,
+char,
+double,
+float,
+int,
+long,
+object,
+short,
+
+
+
+
+Q 09. (1 points)
+Show the output of the following code:
+int[] list1 = {2, 4, 7, 10};
+java.util.Arrays.fill(list1, 7);
+System.out.println(java.util.Arrays.toString(list1));
+int[] list2 = {2, 4, 7, 10};
+System.out.println(java.util.Arrays.toString(list2));
+System.out.print(java.util.Arrays.equals(list1, list2));
+
+//the output is:
+//[7,7,7,7]
+//[2,4,7,10]
+//false
+
+
+
+Q 10. (1.5 points)
+Show the output of the following program when invoked using
+1. java Test I have a dream
+Number of strings is 5
+I 
+have
+a
+dream
+
+2. java Test "1 2 3"
+the number of strings is 1
+1 2 3
+
+3. java Test
+the number of stings is 0
+public class Test {
+public static void main(String[] args) {
+System.out.println("Number of strings is " + args.length);
+for (int i = 0; i < args.length; i++)
+System.out.println(args[i]);
+}
+}
+
+
+
+Q 11. (2 points)
+1) Can the rows in a two-dimensional array have different lengths?
+Yes
+
+2) What is the output of the following code?
+int[][] array = new int[5][6];
+int[] x = {1, 2};
+array[0] = x;
+System.out.println("array[0][1] is " + array[0][1]);
+
+
+//the output is:
+//array[0][1] is 2
+
+
+3) Show the output of the following code:
+int[][] array = {{1, 2}, {3, 4}, {5, 6}};
+for (int i = array.length - 1; i >= 0; i--) {
+for (int j = array[i].length - 1; j >= 0; j--)
+System.out.print(array[i][j] + " ");
+System.out.println();
+}
+
+//the output is:
+//6 5
+//4 3
+//2 1
+
+
+4) Show the output of the following code:
+public class Test {
+public static void main(String[] args) {
+int[][] array = {{1, 2, 3, 4}, {5, 6, 7, 8}};
+System.out.println(m1(array)[0]);
+System.out.println(m1(array)[1]);
+}
+public static int[] m1(int[][] m) {
+int[] result = new int[2];
+result[0] = m.length;
+result[1] = m[0].length;
+return result;
+}
+}
+
+//the output is
+//2
+//4
+
+Q 12. (2 points)
+    //a INVALID
+    //int[] list = new int[75];
+    
+    //b INVALID
+    //int size = 5; //added a definition so that the size is intialized
+    //double[] list = new double[size];
+    
+    //c INVALID
+    //int[] test = new int[10];
+    
+    //d INVALID
+    //double[] sales = new double[41];
+
+Q 13. (2 points)
+import java.util.Scanner;
+
+public class Main {
+public static void main(String[] args) {
+    Scanner console = new Scanner(System.in);
+    int[] myList = new int[10];
+    
+    for(int i =0; i<10; i++){
+        myList[i] = console.nextInt();
+    }
+    
+    for(int i=0; i<10; i++){
+        System.out.print(myList[i] + " ");
+    }
+    
+}
+}
+
+Q 14. (1 points)
+Java checks if array indexes are out of bounds. An array index out of bound is when 
+an array index is attempted to be accessed that is not part of the array (either because it is greater
+than the length of the array, or is negative).
+
+Q 15. (2 points)
+Assume a,b, and c are initialized.
+
+a.) valid
+b.) invalid - the lists do not have values yet ( would be valid however if they did).
+c.) invalid input parameters, cannot pass arrays to ints
+d.) invalid - this would be valid if the lists were had values, but they do not. 
+
+Q 16. (3 points)
+a.) int[][] alpha = new int[10][20];
+b.) for(int i=0;i<10;i++){
+Arrays.fill(alpha[i], 5)
+}
+c.) 
+Arrays.fill(alpha[0], 1)
+for(int i=1;i<10;i++){
+Arrays.fill(alpha[i], 2)
+}
+
+d.)
+Arrays.fill(alpha[0], 5)
+for(int i=1;i<10;i++){
+Arrays.fill(alpha[i], 2*alpha[i-1][0])
+}
+
+e.) 
+for(int i=0; i<10; i++){
+	System.out.print("\n");
+	for(int j=0; j<20; j++){
+		System.out.print(alpha[i][j] + " ");
+}
+}
+
+f.) 
+for(int i=0; i<10; i++){
+	for(int j=0; j<20; j++){
+		System.out.println(alpha[i][j] + " ");
+}
+}
+
+
+
+
+
+
+
+
+
+

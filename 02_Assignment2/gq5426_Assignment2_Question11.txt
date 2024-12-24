@@ -1,0 +1,80 @@
+/******************************************************************************
+
+Use nested loops that display the following patterns 
+in four separate nested loops.
+*******************************************************************************/
+public class Main
+{
+    public static void patternA(int size){
+        for(int i=0; i<size; i++){
+            int num = 1;
+            System.out.print("\n"); //new line?
+            for (int j=0; j<(i+1); j++){
+                System.out.print(num + " ");
+                num++;
+            }
+            
+        }
+        System.out.print("\n");
+        
+    }
+    
+        public static void patternB(int size){
+        for(int i=0; i<size; i++){
+            int num = 1;
+            System.out.print("\n"); //new line?
+            for (int j=0; j<(size - i); j++){
+                System.out.print(num + " ");
+                num++;
+            }
+            
+        }
+                    System.out.print("\n");
+        
+    }
+    
+    public static void patternC(int size){
+        int num = 1;
+        for(int i=0; i<size; i++){
+            
+
+            System.out.print("\n"); //new line?
+            for(int j=1; j<(size-i); j++){
+                System.out.print("  ");
+            }
+            
+            for (int j=0; j<(i+1); j++){
+                System.out.print((num-j) + " ");
+
+            }
+            num++;
+            
+        }
+        System.out.print("\n");
+        
+    }
+    
+    public static void patternD(int size){
+        for(int i=0; i<size; i++){
+            int num = 1;
+            System.out.print("\n"); //new line?
+            for (int j=0; j<i; j++){
+                System.out.print("  ");
+            }
+            for (int j=0; j<(size - i); j++){
+                System.out.print(num + " ");
+                num++;
+            }
+            
+        }
+        
+        System.out.print("\n");
+        
+    }
+	public static void main(String[] args) {
+		patternA(6); //yup that works, neato.
+		patternB(6);
+		patternC(6);
+		patternD(6);
+	}
+}

@@ -1,0 +1,246 @@
+Q01. (10 points - 1 point each) 
+
+a)	When will a class have a default constructor?
+A class has a default constructor when a constructor is not explicitly defined. Java automatically defines a constructor for you if one is not explicitly defined. 
+b)	What is an anonymous object?
+An anonymous object is an objective that is not assigned a variable when it is created. 
+c)	What is NullPointerException?
+The NullPointerException is what happens when you try to access an object that does not reference any instance of an object. 
+
+d)	What is wrong in the following code?
+ 1  class Test {
+ 2    public static void main(String[] args) {
+ 3      A a = new A(); //the issue is here, the code does not have an input for the constructor, and the constructor has no default value, therefore attempting to call it causes an error. 
+ 4      a.print(); 
+ 5    }
+ 6  }
+ 7
+ 8  class A {
+ 9    String s;
+10
+11    A(String newS) {
+12      s = newS;
+13    }
+14
+15    public void print() {
+16      System.out.print(s);
+17    }
+18  }
+
+
+e)	What is the output of the following code?
+public class A {
+  boolean x;
+ 
+  public static void main(String[] args) {
+    A a = new A();
+    System.out.println(a.x);
+  }
+}
+//the output of this code is ‘false’.
+  
+f)	 a. Can you invoke an instance method or use an instance variable from a static method? 
+Yes (if you have an instance of the class).   
+b. Can you invoke a static method or use a static variable from an instance method? 
+Yes.
+
+g)	In the following code, radius is private in the Circle class, and myCircle is an object of the Circle class. Does the code cause any problems? If so, explain why.
+public class Circle {
+  private double radius = 1; 
+
+  /** Find the area of this circle */
+  public double getArea() {
+    return radius * radius * Math.PI;
+  }
+
+  public static void main(String[] args) {
+    Circle myCircle = new Circle();
+    System.out.println("Radius is " + myCircle.radius);
+  }
+}
+
+//The code outputs ‘Radius is 1.0’ 
+//Remember, radius is inaccessible outside the context of the class, this could cause issues in the future. 
+
+h)	 Describe the difference between passing a parameter of a primitive type and passing a parameter of a reference type. Show the output of the following programs:
+
+Passing a parameter of a reference type passes the memory address of that reference type. Passing a parameter of a primitive type passes the actual value itself. 
+
+public class Test {
+  public static void main(String[] args) {
+    Count myCount = new Count();
+    int times = 0;
+
+    for (int i = 0; i < 100; i++)
+      increment(myCount, times);
+
+    System.out.println("count is " + myCount.count);
+    System.out.println("times is " + times);
+  }
+
+  public static void increment(Count c, int times) {
+    c.count++;
+    times++;
+  }
+}
+
+class Count {
+  public int count;
+
+  public Count(int c) {
+    count = c;
+  }
+
+  public Count() {
+    count = 1;
+  }
+}
+
+//The output of the program is:
+//”Count is 101”
+//times is 0
+            
+i)	 Is the following class immutable?
+public class A {
+  private int[] values;
+
+  public int[] getValues() {
+    return values;
+  }
+}
+
+No the above class is not immutable, it can be changed after the class is created, this is because the keyword final is not used before the internal values of the class. 
+
+j)	 What is wrong in the following code? Corrected. CORRECT IT YOU MEAN.
+ 1  public class C {
+ 2    private int p;
+ 3
+ 4    public C() {
+6      this(0); //this is in the wrong place, put it first.
+
+ 5      System.out.println("C's no-arg constructor 
+					invoked");
+7    }
+ 8
+ 9    public C(int p) {
+10      this.p = p; //gotta change the local instance of p. See my comment below. 
+11    }
+12
+13    public void setP(int p) {
+14      this.p = p;//without including the this.p it doesn’t change the instance, it changes the entire parameter across all classes. Silly. 
+15    }
+16  }
+
+
+
+Q02. (4 points) 
+Suppose that the class F is defined in (a). Let f be an instance of F. 
+Which of the statements in (b) are correct?
+(a)
+public class F {
+  int i;
+  static String s;
+
+  void imethod() {
+  }
+
+  static void smethod() {
+  }
+}
+
+(b)
+System.out.println(f.i); //incorrect
+System.out.println(f.s); //incorrect
+f.imethod(); //correct
+f.smethod(); //incorrect
+System.out.println(F.i); //incorrect
+System.out.println(F.s); //correct
+F.imethod(); //incorrect
+F.smethod(); //correct
+
+//static variables can be accessed through class names OR instances
+
+
+Q03. (4 points) 
+Show the output of the following code:
+(a)
+public class Test {
+  public static void main(String[] args) {
+    int[] a = {1, 2};
+    swap(a[0], a[1]);
+    System.out.println("a[1] = " + a[1] 
+      + " a[0] = " + a[0]);    
+  }
+
+  public static void swap(int n1, int n2) {
+    int temp = n1;
+    n1 = n2;
+    n2 = temp;
+  }
+} 
+//The output of the above code is:
+//a[1] =2 a[0]=1
+
+(b)
+public class Test {
+  public static void main(String[] args) {
+    int[] a = {1, 2};
+    swap(a);
+    System.out.println("a[1] = " + a[1] 
+      + " a[0] = " + a[0]);    
+  }
+
+  public static void swap(int[] a) {
+    int temp = a[0];
+    a[0] = a[1];
+    a[1] = temp;
+  }
+}
+//the output of the above code is:
+//a[1]=1 a[0]=2
+
+(c)
+public class Test {
+  public static void main(String[] args) {
+    T t = new T();
+    swap(t);
+    System.out.println("e1 = " + t.e1 
+       + " e2 = " + t.e2);    
+  }
+
+  public static void swap(T t) {
+    int temp = t.e1;
+    t.e1 = t.e2;
+    t.e2 = temp;
+  }
+}
+class T {
+  int e1 = 1;
+  int e2 = 2; 
+}
+//the output of the above code is:
+//e1 = 2 e2 = 1
+(d)
+public class Test {
+  public static void main(String[] args) {
+    T t1 = new T(); 
+    T t2 = new T(); 
+    System.out.println("t1's i = " + 
+      t1.i + " and j = " + t1.j);
+    System.out.println("t2's i = " + 
+      t2.i + " and j = " + t2.j);
+  }  
+}
+
+class T {
+  static int i = 1;
+  int j = 1;
+
+  T() {
+    i++;
+    j = 1;
+  }
+} 
+//the output of the above code:
+//t1’s i = 3 and j = 1
+//t2’s i = 3 and j = 1           

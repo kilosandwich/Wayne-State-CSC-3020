@@ -1,0 +1,48 @@
+/******************************************************************************
+
+Define a class named ComparableSquare that extends Square (defined above) 
+and implements interface Comparable.
+Override compareTo method to compare 
+the Squares on the basis of area. 
+Write a test class to find the larger of two instances of ComparableSquare objects.
+
+Here is a sample run:
+Comparing the areas of two squares for sides 5 and 8
+the largest Area is 64.0
+
+
+*******************************************************************************/
+public class ComparableSquare extends Square implements Comparable
+{
+    ComparableSquare(double s){
+        super(s);
+    }
+    @Override
+    public int compareTo(Object C){
+        double returna =0.0;
+        int returni;
+        System.out.println("Comparing the area of two squares for sides " + this.getSide() + " and " + ((ComparableSquare) C).getSide());
+        if(this.getArea() > ((ComparableSquare) C).getArea()){
+            
+            returna = this.getArea();
+            
+        }else{
+            returna = ((ComparableSquare) C).getArea();
+        }
+        System.out.println("The largest area is: " + returna);
+        returni = (int)  (this.getArea() - ((ComparableSquare) C).getArea());
+        return returni;
+        
+    }
+
+}
+
+class TestClass{
+    public static void main(String[] args) {
+    	//System.out.println("Hello WOLRD!!!!");
+        ComparableSquare s1 = new ComparableSquare(5);
+        ComparableSquare s2 = new ComparableSquare(8);
+        int result = s1.compareTo(s2);
+        //System.out.println("Comparison result: " + result);
+	}
+}
