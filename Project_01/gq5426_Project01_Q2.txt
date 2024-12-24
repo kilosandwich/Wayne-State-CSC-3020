@@ -1,0 +1,242 @@
+/******************************************************************************
+
+Write a program with array(s) capable of storing the schedules. Create a main menu that allows the user to mark a time slot as busy or free for either instructor. Also, add an option to output the schedules to the screen. Next, add an option to output all time slots available for individual lessons (slots when at least one instructor is free). Finally, add an option to output all time slots available for group lessons (when both instructors are free).
+The program should process unlimited number of user requests and validate user input. 
+Your program must use two 2-D arrays for the schedules. In addition, you must use at least four methods to:
+a.	Prints a menu to the screen.
+b.	Prints Anna, Jeff, individual lessons, and group lessons schedules to the screen.
+c.	Prompts the user to select an instructor, day, and slot. 
+d.	Schedule or free one of the instructor's slots. 
+
+Question 02 Grading Criteria: 
+•	A method to print a menu (2 points).
+•	A method to print schedules (4 points).
+•	Input method to select instructor, day, and slot (4 points).
+•	A method to schedule or to free instructor’s slot (6 points).
+•	Validating user input (4 points). 
+Question 02 Sample run
+Enter one of the following commands:
+ p - Print schedules
+ s - Schedule a slot
+ f - Free a slot
+ i - Show slots available for individual lessons
+ g - Show slots available for group lessons
+ q - Quit
+Command: p
+
+Jeff:
+            Mon  Tue  Wed  Thu
+11-12   X       X      _       _
+12-1      _       X      X      X
+1-2        _       X      X      _
+2-3       X       X      X      _
+
+Anna:
+            Mon  Tue  Wed  Thu
+11-12   X       X      _       X
+12-1      _       X      _       X
+1-2       X       X      _        _
+2-3       X       _      X       X
+
+Enter one of the following commands:
+ p - Print schedules
+ s - Schedule a slot
+ f - Free a slot
+ i - Show slots available for individual lessons
+ g - Show slots available for group lessons
+ q - Quit
+
+
+*******************************************************************************/
+import java.util.Scanner;
+
+//reminder, onlinegdb ONLY allows classes to be named Main, I am sorry.
+class Main {
+    //The schedules are stored as multilevel arrays.
+    //these arrays are stored as variables within the class to be commonly
+    //accessed by all methods
+    
+    char[][] jeffSchedule ={
+        {'X', 'X', '_', '_'},
+        {'_', 'X', 'X', 'X'},
+        {'_', 'X', 'X', '_'},
+        {'X', 'X', 'X', '_'}};
+        
+    char[][] annaSchedule ={
+        {'X', 'X', '_', 'X'},
+        {'_', 'X', '_', 'X'},
+        {'X', 'X', '_', '_'},
+        {'X', '_', 'X', 'X'}};
+        
+
+    //can't believe no one goes swimming on Fridays
+    
+    //this is the bit where the actual program is tested
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Main scheduleProgram = new Main();
+
+        while (true) {
+            //I realllllly didn't want to keep defining new scanners in each method.
+            //though this probably made my program less modular and more prone to error.
+            
+            scheduleProgram.printMenu(scanner);
+        }
+    }
+    
+    //the printMenu class uses as scanner as an input, and prints 
+    //the menu. It then takes the scanner input to get 
+    void printMenu(Scanner scanner) {
+        System.out.println("Enter one of the following commands:");
+        System.out.println(" p - Print schedules");
+        System.out.println(" s - Schedule a slot");
+        System.out.println(" f - Free a slot");
+        System.out.println(" i - Show slots available for individual lessons");
+        System.out.println(" g - Show slots available for group lessons");
+        System.out.println(" q - Quit");
+        System.out.print("Command: ");
+        
+        //Theoretically, the user could type in any sentence as long 
+        //as the first character was the correct command. I am still
+        //unsure of how to get around this oversight. 
+        char command = scanner.next().charAt(0);
+        
+        //switch statement that picks the commands from a list.
+        //bless switch for saving me the pain of else if
+        switch (command) {
+            case 'p':
+                printSchedules();
+                break;
+            case 's':
+                scheduleSlot(scanner);
+                break;
+            case 'f':
+                freeSlot(scanner);
+                break;
+            case 'i':
+                printAvailableSlots("Individual");
+                break;
+            case 'g':
+                printAvailableSlots("Group");
+                break;
+            case 'q':
+                System.out.println("Exiting program. Goodbye!");
+                System.exit(0);
+            default:
+            //the user used an invalid input. The program does not break
+                System.out.println("Invalid command. Please try again.");
+        }
+    }
+    //prints the schedules. Honestly I could have consolidated it with the
+    //print schedules command, but ehhhhhhhh
+    void printSchedules() {
+        System.out.println("Jeff:");
+        printSchedule(jeffSchedule);
+
+        System.out.println("\nAnna:");
+        printSchedule(annaSchedule);
+    }
+    //print schedule function that took longer than it should have
+    void printSchedule(char[][] schedule) {
+        //I spent most of my time just fiddling with the formatting here. 
+        //I am not certain fighting with formatting is the best use of our time
+        //to learn java. Seriously, it takes forever. 
+        System.out.printf("%14s%4s%4s%4s%4s\n", "", "Mon", "Tue", "Wed", "Thu");
+        //for loop to print out the schedules. 
+        for (int i = 0; i < 4; i++) {
+            
+            System.out.printf("%s%4d-%d", (i + 11), (i + 12), i + 1);
+            for (int j = 0; j < 4; j++) {
+                System.out.printf("%5c", schedule[i][j]);
+            }
+            System.out.println();
+        }
+    }
+    //uses the scanner as an input, 
+    //this program does not check if a slot is already full when attempting to scheduleSlot
+    //it, but the instructions doesn't say it has to.
+    void scheduleSlot(Scanner scanner) {
+        //use those scanner getty commands
+        char instructor = getInstructor(scanner);
+        int day = getDay(scanner);
+        int slot = getSlot(scanner);
+
+        if (instructor == 'A') {
+            annaSchedule[slot - 11][day - 1] = 'X';
+        } else if (instructor == 'J') {
+            jeffSchedule[slot - 11][day - 1] = 'X';
+        }
+    }
+    //converts slots into free slots. This function does not bother to identify if the slot was full
+    //at the time or not. This could be problematic if the program is later expanded for different type of 
+    //slot occupation. 
+    void freeSlot(Scanner scanner) {
+        //runs the subcommands (submethods?) so I don't need to keep defining the scanner in the methods. 
+        char instructor = getInstructor(scanner);
+        int day = getDay(scanner);
+        int slot = getSlot(scanner);
+
+        if (instructor == 'A') {
+            annaSchedule[slot - 11][day - 1] = '_';
+        } else if (instructor == 'J') {
+            jeffSchedule[slot - 11][day - 1] = '_';
+        }
+    }
+    //iterates through the arrays to identify free slots. 
+    void printAvailableSlots(String lessonType) {
+    System.out.println("Available Slots for " + lessonType + " Lessons:");
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            boolean isAvailableForGroup = annaSchedule[i][j] == '_' && jeffSchedule[i][j] == '_';
+
+            if ((lessonType.equals("Group") && isAvailableForGroup) ||
+                    (lessonType.equals("Individual") && (annaSchedule[i][j] == '_' || jeffSchedule[i][j] == '_'))) {
+                System.out.printf("%d-%d %s\n", (i + 11), (i + 12), getDayAsString(j + 1));
+            }
+        }
+    }
+}
+    //it's the getday function, but for instructors!
+    char getInstructor(Scanner scanner) {
+        char instructor;
+        do {
+            System.out.print("Enter instructor (A for Anna, J for Jeff): ");
+            instructor = Character.toUpperCase(scanner.next().charAt(0));
+        } while (instructor != 'A' && instructor != 'J');
+        return instructor;
+    }
+    //basic function to get the day as inputted by the user.
+    int getDay(Scanner scanner) {
+        int day;
+        do {
+            System.out.print("Enter day (1 for Mon, 2 for Tue, 3 for Wed, 4 for Thu): ");
+            day = scanner.nextInt();
+        } while (day < 1 || day > 4);
+        return day;
+    }
+    //same thing as the two above
+    int getSlot(Scanner scanner) {
+        int slot;
+        do {
+            System.out.print("Enter slot (11-12, 12-1, 1-2, 2-3): ");
+            slot = scanner.nextInt();
+        } while (slot < 11 || slot > 14);
+        return slot;
+    }
+    //conver those pesky numbers into actually usable strings. 
+    String getDayAsString(int day) {
+        switch (day) {
+            case 1:
+                return "Mon";
+            case 2:
+                return "Tue";
+            case 3:
+                return "Wed";
+            case 4:
+                return "Thu";
+            default:
+                return "";
+        }
+    }
+}

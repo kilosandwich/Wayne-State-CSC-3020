@@ -1,0 +1,29 @@
+/******************************************************************************
+
+Write a program demonstrating that the order of catch blocks is important. If you try to catch a superclass exception type before a subclass type, the compiler should generate errors.
+
+*******************************************************************************/
+//I need to try and generate a superclass exception before a subclass type
+//Looking at the big slide of doom on canvas, it appears that NullPointerExceptions
+//are of the class 'runtimeexceptions'
+//looking at the chart I could have just used class Exception, that might have worked better. Whatever. 
+
+//the plan: run a nullpoint exception AFTER a runetime exception, thus meaning
+//the program will fail to compile. 
+
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Oh boy here I go failing to compile again");
+		try{
+		    throw new NullPointerException("Ayy lmao NUllpointer exceptions gottem");
+		}catch(RuntimeException e){
+		    System.out.println("Exception: " + e.getMessage());
+		}catch(NullPointerException e){
+		    //I tried to compile it and it complained as follows:
+		    //ERROR NULLPOINTER EXCEPTION HAS ALREADY BEEN CAUGHT.
+		    //the system works :tm:
+		    System.out.println("Exception: " +  e.getMessage());
+		}
+	}
+}

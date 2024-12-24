@@ -1,0 +1,65 @@
+/******************************************************************************
+
+Write a program that demonstrates how various exceptions are caught with catch (Exception exception). Define classes ExceptionA (which inherits from class Exception) and ExceptionB (which inherits from class ExceptionA). In your program, create try blocks that throw exceptions of types ExceptionA, ExceptionB, NullPointerException and IOException. All exceptions should be caught with catch blocks specifying type Exception.
+
+*******************************************************************************/
+import java.io.IOException; //you want the io exception, you need to get it
+
+class ExceptionA extends Exception {
+    ExceptionA(String errormessage){
+        super(errormessage); //the exception class has an exception that when called
+        //displays the error message it's quite nice. 
+    }
+}
+
+class ExceptionB extends ExceptionA {
+    //I keep thinking string starts will lower case. C++ FOREVER!!!
+    ExceptionB(String errormessage){
+        super(errormessage);
+    }
+}
+
+//this is where the exceptions demonstrations will be occur
+/* Laundry list:
+ExceptionA
+ExceptionB
+NullPointerException
+IOException
+*/
+public class Main
+{
+	public static void main(String[] args) {
+	    try{
+	        //demonstration of exception A
+	        throw new ExceptionA("Exception A occured");
+	    }catch(ExceptionA e){
+	        //print out that error yo
+	        System.out.println("Exception: " + e.getMessage());
+	    }
+	    
+	    try{
+	        //demonstration of exception B
+	        throw new ExceptionB("Exception B occured");
+	    }catch(ExceptionB e){
+	        //print out that error yo
+	        System.out.println("Exception: " + e.getMessage());
+	    }
+	    
+	    //demonstration of NullPointerException
+	    try{
+	        String n = null; //define a null string, and feed it to a function that
+	        //throws exceptions, then immediately catch that exception;
+	        n.length(); //lmao eror should be thrown
+	    }catch(NullPointerException e){
+	        System.out.println("Exception: " + e.getMessage());
+	    }
+	    
+	    try{
+	        throw new IOException("IOException happening at a store near you!");
+	        
+	    }catch(IOException e){
+	        System.out.println("Exception: " + e.getMessage());
+	    }
+	    
+	}
+}

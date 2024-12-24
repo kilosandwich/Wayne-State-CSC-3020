@@ -1,0 +1,209 @@
+/******************************************************************************
+
+Extra Credit – Encoding and Decoding (20 Points)
+a.	Create an interface MessageEncoder that has a single abstract method encode(plainText), where plainText is the message to be encoded. The method returns the encoded message.
+b.	Create Abstract class Cipher that has a single abstract method cipherType(); the method returns a string.
+c.	Create a class SubstitutionCipher that extends class Cipher and implements the interface MessageEncoder defined in parts a and b. The constructor should have one parameter called shift. Define method cipherType so that the method returns the string “SubstitutionCipher”. Define the method encode so that each letter is shifted by the value in shift. For example, if shift is 3, a will be replaced by d, b will be replaced by e, c will be replaced by f, and so on. You may wish to define a private method that shifts a single character.
+d.	Create a class ShuffleCipher that extends class Cipher and implements the interface MessageEncoder defined in parts a and b. The constructor should have one parameter called n. Define method cipherType so that the method returns the string “ShuffleCipher”. Define the method encode so that the message is shuffled n times. To perform one shuffle, split the message in half and then take characters from each half alternately. For example, if the message is “abcdefghi”, the halves are “abcd” and “efghi”. The shuffled message is “aebfcgdhi”. You may wish to define a private method that performs one shuffle.
+e.	Create an interface MessageDecoder that has a single abstract method decode( cipherText), where cipherText is the message to be decoded. The method returns the decoded message. 
+f.	Modify the classes SubstitutionCipher and ShuffleCipher defined in parts c and d, so that they implement MessageDecoder as well as the interface MessageEncoder. 
+g.	Finally, create class CodeProgram with a menu driven program that allows a user to encode and decode messages read from a file and written to another file.
+
+
+*******************************************************************************/
+import java.io.*;
+import java.util.Scanner;
+
+
+// Interface MessageEncoder
+interface MessageEncoder {
+    String encode(String plainText);
+}
+
+// Interface MessageDecoder
+interface MessageDecoder {
+    String decode(String cipherText);
+}
+
+// Abstract class Cipher
+abstract class Cipher {
+    abstract String cipherType();
+    abstract String encode(String plainText);
+    abstract String decode(String plainText);
+    
+}
+
+// SubstitutionCipher class
+class SubstitutionCipher extends Cipher implements MessageEncoder, MessageDecoder {
+    private int shift;
+
+    // Constructor
+    public SubstitutionCipher(int shift) {
+        this.shift = shift;
+    }
+
+    // Implementation of abstract method in Cipher
+    public String cipherType() {
+        return "SubstitutionCipher";
+    }
+
+    // Implementation of encode method in MessageEncoder
+    public String encode(String plainText) {
+        StringBuilder encodedText = new StringBuilder();
+
+        for (char character : plainText.toCharArray()) {
+            if (Character.isLetter(character)) {
+                char base = Character.isUpperCase(character) ? 'A' : 'a';
+                //we need to use modulus because of the limited alphabet
+                encodedText.append((char) ((character - base + shift) % 26 + base));
+            } else {
+                encodedText.append(character);
+            }
+        }
+
+        return encodedText.toString();
+    }
+
+    // Implementation of decode method in MessageDecoder
+    public String decode(String cipherText) {
+        // Decoding is the same as encoding with a negative shift
+        return encode(cipherText);
+    }
+}
+
+// ShuffleCipher class
+class ShuffleCipher extends Cipher implements MessageEncoder, MessageDecoder {
+    private int n;
+
+    // Constructor
+    public ShuffleCipher(int n) {
+        this.n = n;
+    }
+
+    // Implementation of abstract method in Cipher
+    public String cipherType() {
+        return "ShuffleCipher";
+    }
+
+    // Implementation of encode method in MessageEncoder
+    public String encode(String plainText) {
+        StringBuilder encodedText = new StringBuilder(plainText);
+        for (int i = 0; i < n; i++) {
+            encodedText = shuffle(encodedText);
+        }
+        return encodedText.toString();
+    }
+
+    // Implementation of decode method in MessageDecoder remember that annoying thing?
+    public String decode(String cipherText) {
+        // Decoding is the same as encoding for shuffle cipher
+        return encode(cipherText);
+    }
+
+    // Shuffler Shuffles the shuffle about using the Strinbuilder. 
+    private StringBuilder shuffle(StringBuilder text) {
+        int length = text.length();
+        StringBuilder shuffledText = new StringBuilder(length);
+        //the shuffler shuffles 
+        for (int i = 0; i < length / 2; i++) {
+            shuffledText.append(text.charAt(i));
+            shuffledText.append(text.charAt(i + length / 2));
+        }
+
+        return shuffledText;
+    }
+}
+
+//This is the class with the menu
+
+
+public class CodeProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean doAnotherMessage = true;
+        Cipher cipher = null;
+
+        while (doAnotherMessage) {
+            //the menu experience :tm:
+            System.out.println("Welcome to the Cipher program.");
+            System.out.println("Type 1 for Substitution Cipher.");
+            System.out.println("Type 2 for Shuffle Cipher.");
+
+            int cipherType = scanner.nextInt();
+            //menu choices made
+            if (cipherType == 1) {
+                System.out.println("What is the key (shift amount) for your code?");
+                int shift = scanner.nextInt();
+                cipher = new SubstitutionCipher(shift);
+                System.out.println("SubstitutionCipher-shift amount = " + shift);
+            } else if (cipherType == 2) {
+                System.out.println("What is the key (shuffle amount) for your code?");
+                int shuffleAmount = scanner.nextInt();
+                cipher = new ShuffleCipher(shuffleAmount);
+                System.out.println("ShuffleCipher-shuffle amount = " + shuffleAmount);
+            } else {
+                System.out.println("Invalid choice. Please choose 1 or 2.");
+                continue;
+            }
+            
+            //find out what files the user wants to read 
+            System.out.println("Enter input file name");
+            String inputFileName = scanner.next();
+            System.out.println("Enter output file name");
+            String outputFileName = scanner.next();
+
+            System.out.println("Encode (E) or Decode (D)");
+            char operation = scanner.next().charAt(0);
+
+            try {
+                String inputText = readFile(inputFileName);
+                String resultText;
+
+                if (operation == 'E' || operation == 'e') {
+                    resultText = cipher.encode(inputText);
+                    System.out.println("Encoded text is saved in " + outputFileName);
+                } else if (operation == 'D' || operation == 'd') {
+                    resultText = cipher.decode(inputText);
+                    System.out.println("Decoded text is saved in " + outputFileName);
+                } else {
+                    System.out.println("Invalid choice!!!! THIS IS YOUR FAULT. Please choose E or D.");
+                    //blame the user for their failure
+                    continue;
+                }
+
+                writeFile(outputFileName, resultText);
+            } catch (IOException e) {
+                //I genuinely don't understand why a try and catch seems to be needed
+                //for reading files, java is truly an aberration.
+                System.out.println("Error: " + e.getMessage());
+            }
+            
+            //user inputs choice to continue the menu or not. 
+            System.out.println("Do you want to do another message (Y/N)");
+            char response = scanner.next().charAt(0);
+            //I found this fancy way to compare things I don't really like it
+            //is it useful? Not really, I guess it's more compact than an if statement
+            doAnotherMessage = (response == 'Y' || response == 'y');
+        }
+    }
+
+    // Helper methods for reading and writing files
+    //yeah it has to be static because otherwise it gets weird. I don't understand
+    //tbh I just kept throwing keywords at it until it worked. 
+    private static String readFile(String fileName) throws IOException {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        }
+        return content.toString();
+    }
+
+    private static void writeFile(String fileName, String content) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(content);
+        }
+    }
+}

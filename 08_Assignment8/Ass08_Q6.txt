@@ -1,0 +1,94 @@
+/******************************************************************************
+
+Write a program that replaces all the occurrences of a specified string with another specified string from a text file. Your program should get the arguments from the command line.
+For example, invoking
+java javaFile apples lemons filename
+replaces the string apples with lemons from the specified file. 
+Check if the user entered correct number of arguments in the command line and if the file exist. 
+
+
+*******************************************************************************/
+//I'm recycling a lot of my code. 
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.util.NoSuchElementException;
+import java.io.IOException;
+import java.util.List;
+import java.nio.file.Path; //there's a neat method to readalllines
+import java.nio.file.Files;
+import java.util.ArrayList;
+
+public class analyzer{
+    //we need an array to store all of the rated frequencies, because they
+    //occur through 1 through 5, it needs to be 5 long. 
+
+    String inputFile = "";//theoretically these could be inputs,
+    //but I'm not feeling like reusing this. 
+    String identifyThis = "";
+    String replaceWith = "";
+    List<String> everything;
+    
+    //this method reads the file in, and fills the array
+    void reader(){
+        try{
+            Path path = Path.of(inputFile); //get the path of inputFile
+            //feed the path to readalllines, feed that to a list. 
+            everything = Files.readAllLines(path);
+
+
+
+        }catch(NoSuchElementException e){
+            System.out.println("ERROR: NO SUCH ELEMENT");
+        }catch(FileNotFoundException e){
+            System.out.println("ERROR: FILE NOT FOUND");
+        }catch(IOException e){
+            System.out.println("IO EXCEPTION");
+        }
+        
+        List<String> replacer = new ArrayList<>();
+        //ugg I didn't realize readall lines returned sentences
+        //i wasted so much time on an overly complex solution
+            for (String line : everything) {
+                Scanner scanner = new Scanner(line);
+                while (scanner.hasNext()) {
+                    String word = scanner.next();
+                    if (word.equals(identifyThis)) {
+                        replacer.add(replaceWith);
+                        replacer.add(" ");
+                    } else {
+                        replacer.add(word);
+                        replacer.add(" ");
+                    }
+                }
+                scanner.close();
+            }
+        
+        try{
+            PrintWriter output = new PrintWriter(inputFile);
+            for (String writeThis : replacer){
+                    output.print(writeThis);
+                }
+            output.close();
+        }catch(FileNotFoundException e){
+            System.out.println("ERROR: FILE NOT FOUND");
+        
+        }
+
+    }
+    
+    
+    analyzer(String f, String i, String r){
+        this.inputFile = f;
+        this.identifyThis = i;
+        this.replaceWith = r;
+        reader();
+    }
+	public static void main(String[] args) {
+        analyzer a = new analyzer("fruits.txt", "apples", "lemons");
+	}
+	
+    
+}

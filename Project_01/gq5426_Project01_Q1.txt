@@ -1,0 +1,198 @@
+/******************************************************************************
+
+Write a menu driven program that reads an English-language phrase and encodes it into Morse code. Also, the program reads a phrase in Morse code and converts it into the English-language equivalent. Use one blank between each Morse-coded letter and three blanks between each Morse-coded word.
+In addition to the main method, your program must have at least a method for the menu, a method to convert normal text to Morse code and a method to decode Morse code letter.
+The program’s menu prints three options: t for encoding text, m for decoding morse code, or e to exit a program. The program should process unlimited number of user requests and validate user input. 
+
+
+*******************************************************************************/
+/* My plan is simple: build a big string array and parse through it,
+put the lower and upper case letter as elements 0 and 1 in the array, with 
+the remainder being the string to use*/
+
+//reminder, I cannot name the class morseCode in onlineGDB, as the default class is Main
+//AND IT WILL NOT COMPILE OTHERWISE.
+import java.util.Scanner; //import scanner to get user input ug.
+public class Main
+{
+    /*this is the key String array
+    the Key String array contains a string that contains the lower case
+    letter at index 0, the uppercase letter at index 1, and the morse code
+    translation of such a letter at all points beyond 1:*/
+        
+    String[] key=
+        {"aA.-",
+        "bB-...",
+        "cC-.-.",
+        "dD-..",
+        "eE.",
+        "fF..-.",
+        "gG--.",
+        "fF..-.",
+        "hH....",
+        "iI..",
+        "jJ.---",
+        "kK.-..",
+        "mM--",
+        "nN-.",
+        "oO---",
+        "pP.--.",
+        "qQ--.-",
+        "rR.-.",
+        "sS...",
+        "tT-",
+        "uU..-",
+        "vV...-",
+        "wW.---",
+        "xX-..-",
+        "yY-.--",
+        "zZ--..",
+        "11.----",
+        "22..---",
+        "33...--",
+        "44....-",
+        "55.....",
+        "66-....",
+        "77--...",
+        "88---..",
+        "99----.",
+        "00-----"
+        };
+    
+    void menu(){
+        Boolean run = true;
+        while(run == true){
+            Scanner scanIn = new Scanner(System.in);//create the scanner so the menu
+            //can take input
+            
+            System.out.println("Hello, this program allows you to translate text to morse code or to translate morse code to text");
+            System.out.println("");
+            System.out.println("Please, select one of the below options:");
+            System.out.println("Enter 't' for encoding text");
+            System.out.println("Enter 'm' for decoding morse code");
+            System.out.println("Enter 'e' to exit the program");
+            
+            Boolean choiceMade = false;
+            //create a while loop for invalid input.
+            while(choiceMade == false){
+                System.out.println("Please enter a valid option:");
+                String userChoice = scanIn.nextLine();
+                //assume the user's first letter means what we need it to mean
+                switch(userChoice.charAt(0)){
+                    case 't':
+                        System.out.println("Please enter the phrase:");
+                        String encodeThis = scanIn.nextLine();
+                        System.out.println("Morse Code:");
+                        System.out.println(encoder(encodeThis));
+                        choiceMade = true;
+                        break;
+                    
+                    case 'm':
+                        System.out.println("Please enter the phrase:");
+                        String decodeThis = scanIn.nextLine();
+                        System.out.println("Normal text:");
+                        System.out.println(decoder(decodeThis));
+                        choiceMade = true;
+                        break;
+                    case 'e':
+                        System.out.println("Thank you for using this program!")
+                        run = false;
+                        choiceMade = true;
+                        break;
+                    default:
+                        System.out.println("INVALID OPTION");
+                        break;
+                    
+                }
+        
+        
+        
+            }
+        }
+    }
+    
+    
+    
+    String encoder(String input){
+        String output="";
+        //iterate through the input string
+        for(int i = 0; i<input.length();i++){
+            //iterate through the String array to find the matching letter
+            for(int j=0;j<key.length;j++){
+                //iterate through the first letters of the key array
+                if((input.charAt(i) == key[j].charAt(0)) 
+                || (input.charAt(i) == key[j].charAt(1)) ){
+                    //insert the letters starting AFTER the key
+                    for(int k=2;k<key[j].length();k++){
+                        output += key[j].charAt(k);
+                        
+                    }
+                
+                //convert spaces into three spaces
+                }
+            }
+            
+            //Failed to find the letter? Well it might be a space instead.
+            output += " "; //add a space
+            if(input.charAt(i) == ' '){
+                    output += " "; //only add two spaces, because
+                    //a space is being added after every morse code anyway.
+            }
+        }
+        return output;
+        
+    }
+    
+    String decoder(String input){
+        String output ="";
+        int i=0;
+        
+
+        while(i<input.length()){
+            
+            //continue iterating until a space is reached, the assembled temp 
+            //representes one morse code letter. 
+            String temp ="";
+            int spaceCounter =0;
+            while(i<input.length() && (input.charAt(i) != ' ')){
+                temp += input.charAt(i);
+                i++;
+
+            }
+            
+            //we have enoucntered one space, are there more? how many?
+            while(i< input.length() && (input.charAt(i) == ' ')){
+                spaceCounter++;
+                i++;
+
+
+            }
+            
+            //great! We now have one new letter under temp, convert it into a word
+            //iterate through the String array Key to compare 
+            for(int j=0;j<key.length;j++){
+                //build a temp key2
+                String temp2="";
+                //build temp key2 using what is after the key
+                for(int k=2; k<key[j].length(); k++){
+                    temp2 += key[j].charAt(k);
+                }
+                if(temp.compareTo(temp2) == 0){
+                    output += key[j].charAt(1);
+                    break;
+                }
+            }
+             //if there have been three spaces, it means we need to add a space;
+            if(spaceCounter ==3){
+                output+=" ";
+            }
+        }
+        
+        
+        return output;
+    }
+	public static void main(String[] args) {
+		Main test = new Main();
+		test.menu();
+	}
+}

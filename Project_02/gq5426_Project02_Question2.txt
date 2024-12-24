@@ -1,0 +1,250 @@
+/******************************************************************************
+
+Question 02 - Ship Classes (15 Points)
+a.	(2 points) Design a Ship class that the following members:
+•	A field for the name of the ship (a string)
+•	A field for the year that the ship was built (a string)
+•	A constructor and appropriate accessors and mutators
+•	A toString method that displays the ship’s name and the year it was built
+
+b.	(2 points) Design a CruiseShip class that extends the Ship class. The CruiseShip class should have the following members:
+•	A field for the maximum number of passengers (an int )
+•	A constructor and appropriate accessors and mutators
+•	A toString method that overrides the toString method in the base class. The CruiseShip class’s toString method should display the ship’s name, year, and the maximum number of passengers.
+
+c.	(2 points) Design a CargoShip class that extends the Ship class. The CargoShip class should have the following members:
+•	A field for the ship capacity in tonnage (an int ) 
+•	A constructor and appropriate accessors and mutators
+•	A toString method that overrides the toString method in the base class. The CargoShip class’s toString method should display the ship’s name, year, and the ship’s capacity.
+
+d.	(2 points) Design a TankerShip class that extends the Ship class. The TankerShip class should have the following members:
+•	A field for type of liquid or gas in bulk (a String) and  a field for capacity in tonnage (a double).
+•	A constructor and appropriate accessors and mutators
+•	A toString method that overrides the toString method in the base class. The TankerShip class’s toString method should display the ship’s name, year, type of liquid, and capacity.
+
+e.	(3 points) Override method compareTo in CruiseShip (compare by number of passengers), class CargoShip (compare by capacity), and TankerShip (compare by type of liquid).
+
+f.	(2 points) Demonstrate the classes in a program (ShipDemo class) that has a Ship arrayList. Assign various CruiseShip, CargoShip, and TankerShip objects to the array elements. The program should then step through the array, calling each object’s toString method. 
+
+g.	(2 points) Create three objects of CruiseShip class and store them in an array; sort the array; print all objects before and after you sort them.
+
+2 points will be deducted for not including comments.
+
+
+*******************************************************************************/
+//class ship contains the name, year built as strings,
+//it has methods to set the values of these
+
+import java.util.ArrayList;
+
+class Ship{
+    String name = "";
+    String yearBuilt = "";
+    Ship(String n, String y){
+        this.name = n;
+        this.yearBuilt = y;
+    }
+    
+    void setName(String n){
+        this.name = n;
+    }
+    
+    //this accessor is technically not necessary considering the variable names are public
+    String getName(){
+        return this.name;
+    }
+    
+    void setYearBuilt(String y){
+        this.yearBuilt = y;
+    }
+    
+    String getYetBuilt(){
+        return this.yearBuilt;
+    }
+    
+    public String toString(){
+        return "Ship Name: " + name + "\n Year Built:" + yearBuilt;
+    }
+    
+    
+}
+
+//the class CruiseShip extends ship,
+//it has a field for the maximum number of passengers
+class CruiseShip extends Ship{
+    int maxPassengers = 0;
+    CruiseShip(String n, String y, int m){
+        super(n,y);
+        this.maxPassengers = m;
+    }
+    
+    void setMaxPassengers(int m){
+        this.maxPassengers = m;
+    }
+    
+    int getMaxPassengers(){
+        return this.maxPassengers;
+    }
+    
+    //returns the maximum number of passengers, and name and year from extended class
+    public String toString(){
+        return super.toString() + "\n Maximum Passengers: " + maxPassengers;
+    }
+    
+    //needs a compareTo
+    public int compareTo(Object c){
+        return this.maxPassengers - ((CruiseShip) c ).maxPassengers;
+    }
+}
+
+/* You know what, why am I commenting when the assignment is its own comment???
+c.	(2 points) a CargoShip class that extends the Ship class. The CargoShip class should have the following members:
+•	A field for the ship capacity in tonnage (an int ) 
+•	A constructor and appropriate accessors and mutators
+•	A toString method that overrides the toString method in the base class. The CargoShip class’s toString method should display the ship’s name, year, and the ship’s capacity.
+*/
+
+class CargoShip extends Ship{
+    int tonnagecapacity =0;
+    CargoShip(String n, String y, int t){
+        super(n,y);
+        this.tonnagecapacity = t;
+    }
+    
+    void setTonnageCapacity(int t){
+        this.tonnagecapacity = t;
+    }
+    
+    int getTonnageCapacity(){
+        return this.tonnagecapacity;
+    }
+    
+    public String toString(){
+        return super.toString() + "\n Tonnage Capacity: " + this.tonnagecapacity;
+    }
+    
+        //needs a compareTo
+    public int compareTo(Object c){
+        return this.tonnagecapacity - ((CargoShip) c ).tonnagecapacity;
+    }
+}
+
+/*
+d.	(2 points) Design a TankerShip class that extends the Ship class. The TankerShip class should have the following members:
+•	A field for type of liquid or gas in bulk (a String) and  a field for capacity in tonnage (a double).
+•	A constructor and appropriate accessors and mutators
+•	A toString method that overrides the toString method in the base class. The TankerShip class’s toString method should display the ship’s name, year, type of liquid, and capacity.
+
+
+*/
+
+class TankerShip extends Ship{
+    String cargoType = "";
+    double tonnagecapacity = 0;
+    
+    TankerShip(String n, String y, String c, double t){
+        super(n,y);
+        this.cargoType = c;
+        this.tonnagecapacity = t;
+    }
+    
+    void setCargoType(String c){
+        this.cargoType = c;
+    }
+    
+    String getCargoType(){
+        return cargoType;
+    }
+    
+    void setTonnageCapacity(double t){
+        this.tonnagecapacity = t;
+    }
+    
+    double getTonnageCapacity(){
+        return this.tonnagecapacity;
+    }
+    
+    public String toString(){
+        return super.toString() + "\n Tonnage Capacity: " + this.tonnagecapacity + "\n Cargo Type: " + cargoType;
+    }
+    
+        //needs a compareTo
+    public int compareTo(Object c){
+        if( this.cargoType == ((TankerShip) c).cargoType){
+            return 0; //no difference
+        }else{
+            return -1;//there is a difference
+        }
+    }
+}
+
+/*
+f.	(2 points) Demonstrate the classes in a program (ShipDemo class) that has a Ship arrayList. Assign various CruiseShip, CargoShip, and TankerShip objects to the array elements. The program should then step through the array, calling each object’s toString method. 
+
+g.	(2 points) Create three objects of CruiseShip class and store them in an array; sort the array; print all objects before and after you sort them.
+*/
+
+//okay I got the same class name working this time. 
+public class ShipDemo {
+    public static void main(String[] args) {
+        //arraylists in java make me grateful for pythons regular lists.
+        ArrayList<Ship> al = new ArrayList<>();
+        CruiseShip cs = new CruiseShip("HMS Betty White", "1967", 28);
+        CargoShip cas = new CargoShip("NS Savannah", "1957", 5); //idk the NS Savannah's tonnage
+        TankerShip ts = new TankerShip("SS Horsey", "1999", "Liquid", 50000000);
+        
+        al.add(cs);
+        al.add(cas);
+        al.add(ts);
+        
+        //iterate through the arraylist and print out the information
+        for (Ship s : al){
+            System.out.println(s.toString());
+        }
+        
+        
+        
+    
+        
+        //This is the cruise ship part, where cruise ships are created, and stuffed,
+        //into an array list, then sorted based on comparing their passenger Capacity
+        //using a bubble sort 
+        // In hindsight I should not have used such similar names for the array.
+        ArrayList<Ship> ships = new ArrayList<>();
+        
+        
+        //cruise ship list, 
+        CruiseShip cruiseShip1 = new CruiseShip("Disney Magic", "1998", 2400);
+        CruiseShip cruiseShip2 = new CruiseShip("Very Big Cruise Ship", "2000", 2200);
+        CruiseShip cruiseShip3 = new CruiseShip("Pan Galactic Cruiser", "4000", 99999999);
+
+        ships.add(cruiseShip1);
+        ships.add(cruiseShip2);
+        ships.add(cruiseShip3);
+
+        // Displaying CruiseShip objects before sorting
+        System.out.println("CruiseShip List:");
+        for (Ship ship : ships) {
+            System.out.println(ship.toString());
+        }
+
+        // Bubble sort...yeah definitely should have used a different name for ships. 
+        for (int i = 0; i < ships.size() - 1; i++) {
+            for (int j = 0; j < ships.size() - i - 1; j++) {
+                //forgot to convert the input to an object. ugg
+                if ( ((CruiseShip) ships.get(j)).compareTo( (Object)ships.get(j + 1)) > 0) {
+                    Ship temp = ships.get(j);
+                    ships.set(j, ships.get(j + 1));
+                    ships.set(j + 1, temp);
+                }
+            }
+        }
+
+        
+        System.out.println("\n AFTER sorting:");
+        //iterate through every ship in the collection of ships and convert them toStrings
+        for (Ship ship : ships) {
+            System.out.println(ship.toString());
+        }
+    }
+}

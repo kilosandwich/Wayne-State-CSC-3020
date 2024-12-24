@@ -1,0 +1,88 @@
+Question 01 (12 Points)
+a)	What is the purpose of declaring exceptions? How do you declare an exception in a method, and where? Can you declare multiple exceptions in a method header?
+The purpose of declaring exceptions is to deal with runtime errors or conditions that occur during a program that make the program not perform as intended. Exceptions are declared using the ‘throw’ keyword which follows the parameters in the declaration of a method. You can declare multiple exceptions using commas. 
+
+b)	What is a checked exception, and what is an unchecked exception?
+A checked exception is an exception that the compiler mandates to be handeled either through it being caught in a try-catch block or declared in the header’s throws keyword.
+
+Unchecked exceptions are not required to be handled explicitly – which is much less annoying. 
+
+c)	How do you throw an exception? Can you throw multiple exceptions in one throw statement?
+
+An exception is thrown using the ‘throw’ keyword. The word that follows after the ‘throw’ keyword is the name of the exceptions. Multiple exceptions cannot be thrown with just one throw statement – you have to use multiple throw statements. 
+
+d)	What is wrong about creating a File object using the following statement?
+	new File("c:\book\test.dat");
+Backslashes are escape characters. :c 
+e)	Can you use the File class for file I/O? Does creating a File object create a file on the disk?
+The file class does not explicitly include ways to input and output to file, sadly you must use classes such as FileWriter to do that instead. Similarly creating a file object does not create a file on disk, 
+
+f)	How do you create a PrintWriter to write data to a file? What is the reason to declare throws Exception in the main method in Listing 12.13, WriteData.java? What would happen if the close() method were not invoked in Listing 12.13?
+You create a printwriter using the filewriter as follows:
+FileWriter myfilewriter = new FileWriter(“lmao.txt”, false);
+PrintWriter myprintwriter = new PrintWriter (myfilewriter);
+//congrats, you can now use your print writer to print to file….I guess that’s useful?
+
+The throws exception is there in case something goes wrong while it is writing. 
+
+Not closing a file that lead to funny situations such as accidentally writing to the wrong file and fun errors such as resource leaks. To avoid these, just close the file – or just use one file and hope nothing goes wrong (this is not a good plan, close the file). 
+
+
+ 
+
+g)	How do you create a Scanner to read data from a file? What is the reason to define throws Exception in the main method in Listing 12.15, ReadData.java? What would happen if the close() method were not invoked in Listing 12.15?
+A scanner can read data from a file if a file object is created, then a scanner objected is created that uses that file object as its parameter. It looks like this:
+File myfile = new File(“ayylmao.txt);
+Scanner scanner = new Scanner(myfile);
+//congrats, you can now use your scanner to read the file. Neato. 
+The reason for the throws exception is because there is a checked exception when reading from files. It has to be there or else it won’t compile, it is annoying like that.
+
+Without using close() then the file does not close, this can lead to resource leaks, and making the file inaccessible because it is still technically ‘open’ by the program. 
+ 
+
+h)	What will happen if you attempt to create a Scanner for a nonexistent file? What will happen if you attempt to create a PrintWriter for an existing file?
+If there is no file for a scanner, the scanner will throw a File Not Found exception. This keeps happening to me when I mistype my file name in java. 
+
+If there is already an existing file for a PrintWriter, then the existing files content will be overrwritten by the printwriter. 
+
+
+Question 02 (6 Points)
+Suppose you run the following code:
+
+public static void main(String[] args) {
+  try {
+    m(); 
+    statement7;
+  }
+  catch (Exception2 ex {
+    statement8;
+  }
+}
+     
+public static void m() {
+  try {
+    statement1;
+    statement2;
+    statement3;
+  }
+  catch (Exception1 ex1) {
+    statement4;
+  }
+  finally {
+    statement5;
+  }
+  statement6;
+}
+answer the questions: 
+1. If no exception occurs, which statements are executed? 
+Statement m is called, which tries 1,2,3 within the try block. The finally block is then executed, throwing statement 5, the block then ends, excecuting statement 6, then statement 7 is executed because m() has been executed. 
+
+2. If statement2 throws an exception of type Exception1, which statements are executed? 
+m() is executed, statement 1 is executed, statement 2 attempts to execute but throws an exception 1, leading to the catch block for exception 1 where statement 4 is executed. Statement 5 is then executed by by the finally block. Statement 6 is then run.  Due to the exception occuring within m() statement 7 is skipped. 
+
+
+3. If statement2 throws an exception of type Exception2, which statements are executed? 
+m() is executed, leading to statement 1 being executed, and statement 2 attempting to be executed, however the exception occurs. The finally block is then triggered, leading to statement 5 being executed. Statement 6 executes.  Due to the exception 2 being called, statement 8 is executed by the catch block in main. 
+
+4. If statement2 throws an exception that is neither Exception1 nor Exception 2, which statements are executed? 
+m() is called, leading to statement 1 being executed, statement 2 attempts to be executed, but throws an error. The finally block runs, running statement 5, statement 6 then runs. 

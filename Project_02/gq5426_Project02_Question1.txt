@@ -1,0 +1,301 @@
+/******************************************************************************
+
+In this project, you will design various classes and write a program to computerize the billing system of a hospital.
+a)	(2 points) Design the class Person. Two common attributes of a person are the person’s first name and last name. The typical operations on a person’s name are to set the name and print the name.
+b)	(2 points) Design the class Doctor, inherited from the class Person with an additional data member to store a doctor’s specialty. Add appropriate constructors and methods to initialize, access, and manipulate the data members.
+c)	(4 points) Design the class Bill with data members to store a patient’s ID and the patient’s hospital charges such as pharmacy charges for medicine, the doctor’s fee, and the room charges. Add appropriate constructors and methods to initialize, access, and manipulate the data members. 
+d)	(2 points) design the class Date. Three common attributes of a date are month, day number, and year. Some of the operations that need to be performed on a date are to set the date and to print the date.
+e)	(5 points) Design the class Patient, inherited from the class Person with additional data members to store a patient’s ID, date of birth, attending physician’s name, the date when the patient was admitted in the hospital, and the date when the patient was discharged from the hospital. (Use the class Date to store the date of birth, admit date, discharge date, and the class Doctor to store the attending physician’s name.) Add appropriate constructors and methods to initialize, access, and manipulate the data members.
+f)	(4 points) Override method toString in each of the above classes. 
+g)	(6 points) Write a program (TestHospital class) to test your classes. Print patient’s name, attending physician, admit date, discharge date, and all charges to console window and to a .txt file as shown below. (use patient’s first and last name for file name; if patient’s name is AAA BCD, the output file name should be AAABCD.txt.). Your printout must match the sample output below. Your program should process more than one patient.
+
+
+*******************************************************************************/
+/* Class Person, includes name and date. Must include methods
+to input name, and print name*/
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+//clas person just contains first name and last name and relevant setting functions. 
+//in hindsight I should have made toString more useful
+//but I didn't. 
+class Person{
+        String firstname = "";
+        String lastname = "";
+    //constructor because I don't want to use the function 
+    
+    Person(String f, String l){
+        this.firstname = f;
+        this.lastname = l;
+    }
+    
+    void setName(String f, String l){
+        this.firstname = f;
+        this.lastname = l;
+    }
+    
+    void setFirstName(String f){
+        this.firstname =f;
+    }
+    
+    void setLastName(String l){
+        this.lastname = l;
+    }
+    
+    void printName(){
+        System.out.println(this.firstname + " " + this.lastname);
+    }
+    
+    public String toString(){
+        return this.firstname+this.lastname;
+    }
+}
+
+//Doctor extends Person and has additional data including specialty.
+//requires constructors and methods to access data members etc.
+//public accessibility means that no 'get' function is needed.
+class Doctor extends Person{
+        String specialty = "";
+    
+    //constructor, uses
+
+    Doctor(String f,String l,String s){
+        super(f,l);
+        this.specialty = s;
+    }
+    
+
+    
+    void setSpecialty(String s){
+        this.specialty = s;
+    }
+    
+    //despite extending class person, tostring will only print the specialty
+    //if you with to get the toString of the first and last name,
+    //please convert into class Person first.
+    public String toString(){
+        return this.specialty;
+    }
+}
+
+//Bill has ID and total amount of bill, and appropiately named functions
+//needs numbers for pharmacy charge, room rent, and doctors fee
+class Bill{
+        //this represents the total amount due for all charges. 
+        int id = 0;
+        double total = 0;
+        double pharmacycharge =0;
+        double roomrent =0;
+        double doctorfee =0;
+
+    Bill(int i, double p, double r, double d){
+        this.id = i;
+
+        this.pharmacycharge = p;
+        this.roomrent =r;
+        this.doctorfee =d;
+        this.total = p + r + d;
+    }
+    
+    void setBill(double p, double r, double d){
+        this.pharmacycharge = p;
+        this.roomrent =r;
+        this.doctorfee =d;
+        this.total = p + r + d;
+    }
+    
+    void setPharmacyCharge(double p){
+        this.pharmacycharge = p;
+        setTotal();
+    }
+    
+    void setRoomRent(double r){
+        this.roomrent = r;
+        setTotal();
+    }
+    
+    void setDoctorFee(double d){
+        this.doctorfee = d;
+        setTotal();
+    }
+    
+    void setTotal(){
+        this.total = this.doctorfee + this.roomrent + this.pharmacycharge;
+    }
+    
+    void setId(int i){
+        this.id = i;
+    }
+    
+    //returning the patient id for a bill seems confusing.
+    //so therefore toString will only return the bill due.
+    public String toString(){
+        String returns = "Total bill: " + total;
+        return returns;
+    }
+}
+
+//class date needs to contain, date of birth, date admitted, and date discharged
+//requires print function. 
+//I just now realized the ideal structure would have been to make
+//date more general, but whoops, I put everything in it specialized
+class Date{
+    //date of birth
+    int dob = 00000000;
+    int da = 0; //date admitted
+    int dd = 0; //date discharged
+    
+
+    Date(int dobi, int dai, int ddi){
+        this.dob = dobi;
+        this.da = dai;
+        this.dd = ddi;
+    }
+    
+    void setDateOfBirth(int dobi){
+        this.dob = dobi;
+    }
+    
+    void setDateAdmitted(int dai){
+        this.da = dai;
+    }
+    
+    void setDateDischarged(int ddi){
+        this.dd = ddi;
+    }
+    
+    void printDate(){
+        System.out.println("Date of Birth (DDMMYYYY): " + this.dob );
+        System.out.println("Date of Admittance (DDMMYYYY): " + this.da );
+        System.out.println("Date of Dicharge (DDMMYYYY): " + this.dd );
+    }
+    
+    //override of toString
+    //because it is returning so much information, it is basically useless.
+    public String toString(){
+        String returns = "Date of Birth (DDMMYYYY): " + this.dob;
+        returns += " Date of Admittance (DDMMYYYY): " + this.da;
+        returns += " Date of Dicharge (DDMMYYYY): " + this.dd;
+        return returns;
+    }
+}
+
+/* class patient extends person and stores other data in classes Doctor
+//bill, and date*/
+
+class Patient extends Person{
+      Doctor physician = new Doctor("", "", "");
+      Date dateinfo = new Date(0,0,0);
+      Bill billinfo = new Bill(0,0,0,0);
+    
+    Patient(String f, String l){
+        super(f,l);
+    }
+    
+    //this function handles input as one giant thing to make running it
+    //easier.
+    void PatientInput(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Patient's ID: ");
+        billinfo.setId(input.nextInt());
+        input = new Scanner(System.in);
+        System.out.println("Enter Patient's First Name: ");
+        super.setFirstName(input.nextLine());
+        System.out.println("Enter Patient's Last Name: ");
+        super.setLastName(input.nextLine());
+        
+        System.out.println("Enter Doctors's First Name: ");
+        physician.setFirstName(input.nextLine());
+        System.out.println("Enter Doctors's Last Name: ");
+        physician.setLastName(input.nextLine());
+        System.out.println("Enter Doctors's Specialty: ");
+        physician.setSpecialty(input.nextLine());
+        
+        System.out.println("Enter Admit Date (DDMMYYYY: ");
+        dateinfo.setDateAdmitted(input.nextInt());
+        System.out.println("Enter Dicharged Date (DDMMYYYY: ");
+        dateinfo.setDateDischarged(input.nextInt());
+        System.out.println("Enter Date of Birth(DDMMYYYY: ");
+        dateinfo.setDateOfBirth(input.nextInt());
+        
+        System.out.println("Enter Pharmacy Charge: $");
+        billinfo.setPharmacyCharge(input.nextDouble());
+        System.out.println("Enter Room Rent: $");
+        billinfo.setRoomRent(input.nextDouble());
+        System.out.println("Enter Doctor's Fee: $");
+        billinfo.setDoctorFee(input.nextDouble());
+    }
+    
+    //this function will spit out the patient's info as a text file.
+    //for convenience sake, it will also print to console. 
+    void txt(){
+        //every file needs a file name, this one must be first name 
+        //and last name combined
+        String filename = this.firstname+ this.lastname+".txt";
+        try{
+            FileWriter writer = new FileWriter(filename);
+            writer.write("\n Patient: " + this.firstname + " " +this.lastname);
+            writer.write("\n ID: " + this.billinfo.id);
+            writer.write("\n Attending Physician: " + this.physician.firstname + " " + this.physician.lastname + " " + this.physician.specialty);
+            writer.write("\n Admit Date DDMMYYYY: " + this.dateinfo.da);
+            writer.write("\n Discharge Date DDMMYYYY: " + this.dateinfo.dd);
+            writer.write("\n");
+            writer.write("\n Pharmacy Charges: $" + billinfo.pharmacycharge);
+            writer.write("\n Room Charges: $" + billinfo.roomrent);
+            writer.write("\n Doctors Fee: $" + billinfo.doctorfee);
+            writer.write("\n _____________________________ " );
+            writer.write("\n Total Charges: $" + billinfo.total);
+            writer.close();
+        }catch (IOException e){
+            System.out.println("An error occured.");
+        }
+            System.out.print("\n Patient: " + this.firstname + " " +this.lastname);
+            System.out.print("\n ID: " + this.billinfo.id);
+            System.out.print("\n Attending Physician: " + this.physician.firstname + " " + this.physician.lastname + " " + this.physician.specialty);
+            System.out.print("\n Admit Date DDMMYYYY: " + this.dateinfo.da);
+            System.out.print("\n Discharge Date DDMMYYYY: " + this.dateinfo.dd);
+            System.out.print("\n");
+            System.out.print("\n Pharmacy Charges: $" + billinfo.pharmacycharge);
+            System.out.print("\n Room Charges: $" + billinfo.roomrent);
+            System.out.print("\n Doctors Fee: $" + billinfo.doctorfee);
+            System.out.print("\n _____________________________ " );
+            System.out.print("\n Total Charges: $" + billinfo.total);
+    }
+    
+    public String toString(){
+        String returns = "";
+        returns +="\n Patient: " + this.firstname + " " +this.lastname;
+        returns +="\n ID: " + this.billinfo.id;
+        returns +="\n Attending Physician: " + this.physician.firstname + " " + this.physician.lastname + " " + this.physician.specialty;
+        returns += "\n Admit Date DDMMYYYY: " + this.dateinfo.da;
+        returns += "\n Discharge Date DDMMYYYY: " + this.dateinfo.dd;
+        returns += "\n Pharmacy Charges: $" + billinfo.pharmacycharge;
+        returns += "\n Room Charges: $" + billinfo.roomrent;
+        returns += "\n Doctors Fee: $" + billinfo.doctorfee;
+        returns += "\n Total Charges: $" + billinfo.total;
+        return returns;
+    }
+}
+
+//class main is for the purpose of repeatedly generating files
+//it does this through a loop that runs the patient input function, which creates a new patient
+//it then outputs this patient into the console log and into a separate txt file. 
+//I am having issues renaming this, please pretend that this class is called TestHospital
+//I have issues renaming things in onlinegdb, it is very uncooperative.
+public class Main
+{
+	public static void main(String[] args) {
+	    Scanner input = new Scanner(System.in);
+		char work = 'y';
+		//basic loop, any entry other than starting with y stops the loop
+		while(work == 'y'){
+		    Patient patient = new Patient("","");
+		    patient.PatientInput();
+		    patient.txt();
+		    System.out.println("\n Do you want to continue, enter 'y' for yes, 'n' for no:" );
+		    work = input.nextLine().charAt(0);
+		}
+	}
+}
